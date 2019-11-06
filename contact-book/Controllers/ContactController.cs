@@ -39,10 +39,15 @@ namespace contact_book.Controllers
             return Ok(contact);
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        // GET api/contacts/{search}
+        [HttpGet]
+        [Route("api/contacts")]
+        public async Task<IHttpActionResult> SearchContacts (string search)
         {
-            return "value";
+            var result = await _contactService.SearchContacts(search.Trim().ToLowerInvariant());
+            if (!result.Succeeded)
+                return BadRequest(result.ValidationResult.ToString(" | "));
+            return Ok(result.ContactCollection);
         }
 
         // POST api/values

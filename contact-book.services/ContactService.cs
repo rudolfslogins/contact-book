@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using contact_book.core.Models;
 using contact_book.data;
 using contact_book.services.Validators;
+using MoreLinq;
 
 namespace contact_book.services
 {
@@ -35,6 +36,30 @@ namespace contact_book.services
                     .Include(c => c.Addresses)
                     .Include(c => c.Emails)
                     .FirstOrDefaultAsync();
+            }
+        }
+
+        public async Task<ServiceResult> SearchContacts(string search)
+        {
+            var validator = new SearchValidator();
+            var validationResult = validator.Validate(search);
+            if(!validationResult.IsValid)
+                return new ServiceResult(false, validationResult);
+            using (var context = new ContactBookDbContext())
+            {
+                var result = await context.Contact.Where(s =>
+                        s.FirstName.ToLower().Contains(search) ||
+                        s.LastName.ToLower().Contains(search) ||
+                        s.Company.ToLower().Contains(search) ||
+                        s.PhoneNumbers.Any(p => p.Prefix.Contains(search) ||
+                                                p.Number.Contains(search)) ||
+                        s.Emails.Any(e => e.EmailName.ToLower().Contains(search)))
+                    .Include(s => s.PhoneNumbers)
+                    .Include(s => s.Addresses)
+                    .Include(s => s.Emails) 
+                    .ToListAsync();
+
+                return new ServiceResult(true, result);
             }
         }
 

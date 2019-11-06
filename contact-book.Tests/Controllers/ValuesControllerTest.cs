@@ -29,18 +29,18 @@ namespace contact_book.Tests.Controllers
         //    Assert.AreEqual("value2", result.ElementAt(1));
         //}
 
-        [TestMethod]
-        public void GetById()
-        {
-            // Arrange
-            ContactController controller = new ContactController();
+        //[TestMethod]
+        //public void GetById()
+        //{
+        //    // Arrange
+        //    ContactController controller = new ContactController();
 
-            // Act
-            string result = controller.Get(5);
+        //    // Act
+        //    string result = controller.Get(5);
 
-            // Assert
-            Assert.AreEqual("value", result);
-        }
+        //    // Assert
+        //    Assert.AreEqual("value", result);
+        //}
 
         [TestMethod]
         public void Post()
