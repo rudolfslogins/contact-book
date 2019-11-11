@@ -9,10 +9,10 @@ namespace contact_book.services.Validators
         {
             RuleFor(contact => contact.FirstName)
                 .NotEmpty()
-                .Matches(@"^[A-Z].*$");
+                .Matches(@"^[A-Z][a-z'`-]+$");
             RuleFor(contact => contact.LastName)
                     .NotEmpty()
-                    .Matches(@"^[A-Z].*$");
+                    .Matches(@"^[A-Z][a-z'`-]+$");
             RuleForEach(contact => contact.Emails)
                 .ChildRules(email =>
                 {

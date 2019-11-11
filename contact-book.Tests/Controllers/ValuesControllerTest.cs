@@ -49,7 +49,7 @@ namespace contact_book.Tests.Controllers
             ContactController controller = new ContactController();
 
             // Act
-            controller.Post("value");
+            //controller.Post("value");
 
             // Assert
         }

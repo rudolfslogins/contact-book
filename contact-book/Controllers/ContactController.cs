@@ -6,13 +6,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using contact_book.core.Models;
+using contact_book.Models;
 using contact_book.services;
+using contact_book.services.Interfaces;
+using contact_book.services.Services;
+using MoreLinq.Experimental;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using RouteAttribute = System.Web.Http.RouteAttribute;
+using Type = contact_book.core.Models.Type;
 
 namespace contact_book.Controllers
 {
-    public class ContactController : ApiController
+    public class ContactController : BaseController
     {
         private readonly ContactService _contactService;
 
@@ -26,7 +31,7 @@ namespace contact_book.Controllers
         public async Task<IHttpActionResult> GetAllContacts()
         {
             var contact = await _contactService.GetAllContacts();
-            return Ok(contact);
+            return Ok(contact.Select((ConvertToApiContact)).ToList());
         }
         // GET api/contacts/{id}
         [HttpGet]
@@ -36,7 +41,7 @@ namespace contact_book.Controllers
             var contact = await _contactService.GetContactById(id);
             if (contact == null)
                 return NotFound();
-            return Ok(contact);
+            return Ok(ConvertToApiContact(contact));
         }
 
         // GET api/contacts/{search}
@@ -47,27 +52,45 @@ namespace contact_book.Controllers
             var result = await _contactService.SearchContacts(search.Trim().ToLowerInvariant());
             if (!result.Succeeded)
                 return BadRequest(result.ValidationResult.ToString(" | "));
-            return Ok(result.ContactCollection);
+            return Ok(result.ContactCollection.Select((ConvertToApiContact)).ToList());
+        }
+        //GET api/types
+        [HttpGet]
+        [Route("api/types")]
+        public async Task<IHttpActionResult> GetAllTypes()
+        {
+            var result = await _contactService.GetAllTypes();
+            return Ok(result.Select((ConvertToApiType)).ToList());
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
+
+        // PATCH api/contacts/{id}
+        [HttpPatch]
+        [Route("api/contacts/{id}")]
+        public async Task<IHttpActionResult> UpdateContact(int id, ContactApiModel contactToUpdate)
         {
+            var result = await _contactService.UpdateContact(id, ConvertToContact(contactToUpdate));
+            if (!result.Succeeded && result.ValidationResult != null)
+                return BadRequest(result.ValidationResult.ToString(" | "));
+            if (!result.Succeeded && result.ErrorMessage != null)
+                return BadRequest(result.ErrorMessage);
+            return Ok(ConvertToApiContact(result.Contact));
         }
+
 
         // PUT api/contacts
-        [HttpPut]
+        [System.Web.Http.HttpPut]
         [Route("api/contacts")]
-        public async Task<IHttpActionResult> AddContact(Contact contact)
+        public async Task<IHttpActionResult> AddContact(ContactApiModel contact)
         {
-            var result = await _contactService.AddContact(contact);
+            var result = await _contactService.AddContact(ConvertToContact(contact));
             if (!result.Succeeded)
                 return BadRequest(result.ValidationResult.ToString(" | "));
-            return Created("", result.Contact);
+            return Created("", ConvertToApiContact(result.Contact));
         }
 
         // DELETE api/contacts/{id}
-        [HttpDelete]
+        [System.Web.Http.HttpDelete]
         [Route("api/contacts/{id}")]
         public async Task<IHttpActionResult> DeleteById(int id)
         {
@@ -79,7 +102,7 @@ namespace contact_book.Controllers
         }
 
         //DELETE api/contacts/clearall
-        [HttpDelete]
+        [System.Web.Http.HttpDelete]
         [Route("api/contacts/clearall")]
         public async Task<IHttpActionResult> DeleteAllContacts()
         {

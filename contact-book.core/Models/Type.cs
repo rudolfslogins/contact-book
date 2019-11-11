@@ -3,5 +3,11 @@
     public class Type : Entity
     {
         public string TypeName { get; set; }
+
+        public Type()
+        {
+
+        }
+
     }
 }

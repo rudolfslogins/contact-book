@@ -2,7 +2,7 @@
 using contact_book.core.Models;
 using FluentValidation.Results;
 
-namespace contact_book.services
+namespace contact_book.services.Services
 {
     public class ServiceResult
     {
@@ -10,6 +10,7 @@ namespace contact_book.services
         public Contact Contact { get; }
         public ICollection<Contact> ContactCollection { get; }
         public ValidationResult ValidationResult { get; }
+        public string ErrorMessage { get; }
 
         public ServiceResult(bool succeeded, Contact contact)
         {
@@ -27,6 +28,12 @@ namespace contact_book.services
         {
             Succeeded = succeeded;
             ValidationResult = result;
+        }
+
+        public ServiceResult(bool succeeded, string errMessage)
+        {
+            Succeeded = succeeded;
+            ErrorMessage = errMessage;
         }
     }
 }

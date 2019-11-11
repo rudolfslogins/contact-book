@@ -4,5 +4,11 @@
     {
         public string EmailName { get; set; }
         public Type EmailType { get; set; }
+        public int ContactId { get; set; }
+
+        public Email()
+        {
+
+        }
     }
 }
