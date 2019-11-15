@@ -1,4 +1,5 @@
-﻿using contact_book.core.Models;
+﻿
+using contact_book.core.Models;
 using FluentValidation;
 
 namespace contact_book.services.Validators

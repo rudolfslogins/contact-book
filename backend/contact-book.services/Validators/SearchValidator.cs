@@ -6,7 +6,9 @@ namespace contact_book.services.Validators
     {
         public SearchValidator()
         {
-            RuleFor(s => s).Matches(@"[A-Za-z0-9-+.@`]{3,20}");
+            RuleFor(s => s)
+                .Matches(@"^[A-Za-z0-9-+.@`]{3,20}$")
+                .WithMessage("'Search string' is not in the correct format.");
         }
     }
 }

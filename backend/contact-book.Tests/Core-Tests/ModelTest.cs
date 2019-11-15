@@ -4,7 +4,7 @@ using contact_book.core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Type = contact_book.core.Models.Type;
 
-namespace contact_book.Tests.Core_Tests
+namespace contact_book.Tests
 {
     [TestClass]
     public class ModelTest
@@ -41,5 +41,6 @@ namespace contact_book.Tests.Core_Tests
             Assert.IsNotNull(testContact);
             Assert.AreEqual(2, testContact.PhoneNumbers.Count);
         }
+
     }
 }

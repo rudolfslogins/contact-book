@@ -16,9 +16,9 @@
             RenameColumn(table: "dbo.Address", name: "Contact_Id", newName: "ContactId");
             RenameColumn(table: "dbo.Email", name: "Contact_Id", newName: "ContactId");
             RenameColumn(table: "dbo.PhoneNumber", name: "Contact_Id", newName: "ContactId");
-            AlterColumn("dbo.Address", "ContactId", c => c.Int(nullable: false));
-            AlterColumn("dbo.Email", "ContactId", c => c.Int(nullable: false));
-            AlterColumn("dbo.PhoneNumber", "ContactId", c => c.Int(nullable: false));
+            AlterColumn("dbo.Address", "ContactId", c => c.Int(nullable: true));
+            AlterColumn("dbo.Email", "ContactId", c => c.Int(nullable: true));
+            AlterColumn("dbo.PhoneNumber", "ContactId", c => c.Int(nullable: true));
             CreateIndex("dbo.Address", "ContactId");
             CreateIndex("dbo.Email", "ContactId");
             CreateIndex("dbo.PhoneNumber", "ContactId");

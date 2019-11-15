@@ -79,7 +79,7 @@ namespace contact_book.Controllers
 
 
         // PUT api/contacts
-        [System.Web.Http.HttpPut]
+        [HttpPut]
         [Route("api/contacts")]
         public async Task<IHttpActionResult> AddContact(ContactApiModel contact)
         {

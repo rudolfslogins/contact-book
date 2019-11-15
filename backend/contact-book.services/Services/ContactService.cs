@@ -6,7 +6,6 @@ using contact_book.core.Models;
 using contact_book.data;
 using contact_book.services.Interfaces;
 using contact_book.services.Validators;
-using Type = System.Type;
 
 namespace contact_book.services.Services
 {
@@ -61,7 +60,7 @@ namespace contact_book.services.Services
             }
         }
 
-        public async Task<ICollection<core.Models.Type>> GetAllTypes()
+        public async Task<ICollection<Type>> GetAllTypes()
         {
             using (var context = new ContactBookDbContext())
             {
@@ -180,17 +179,17 @@ namespace contact_book.services.Services
                     .Include(c => c.Emails)
                     .FirstOrDefaultAsync();
 
-                if(contact.Addresses != null)
+                if(contact?.Addresses != null)
                     foreach (var address in contact.Addresses.ToList())
                     {
                         context.Address.Remove(address);
                     }
-                if(contact.Emails != null)
+                if(contact?.Emails != null)
                     foreach (var email in contact.Emails.ToList())
                     {
                         context.Email.Remove(email);
                     }
-                if(contact.PhoneNumbers != null)
+                if(contact?.PhoneNumbers != null)
                     foreach (var phoneNumber in contact.PhoneNumbers.ToList())
                     {
                         context.PhoneNumber.Remove(phoneNumber);
@@ -223,13 +222,13 @@ namespace contact_book.services.Services
         {
             if (contact.Addresses != null)
             {
-                    foreach (var address in contact.Addresses)
-                    {
-                        var addressType = context.Type
-                            .FirstOrDefault(t => t.TypeName == address.AddressType.TypeName);
-                        if (addressType != default)
-                            address.AddressType = addressType;
-                    }
+                foreach (var address in contact.Addresses)
+                {
+                    var addressType = context.Type
+                        .FirstOrDefault(t => t.TypeName == address.AddressType.TypeName);
+                    if (addressType != default)
+                        address.AddressType = addressType;
+                }
             }
 
             if (contact.Emails != null)

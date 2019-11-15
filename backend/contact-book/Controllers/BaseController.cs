@@ -102,11 +102,11 @@ namespace contact_book.Controllers
                 FirstName = contactModel.FirstName,
                 LastName = contactModel.LastName,
                 Company = contactModel.Company,
-                Notes = contactModel.Company,
+                Notes = contactModel.Notes,
                 BirthDate = contactModel.BirthDate,
-                Addresses = ConvertToAddressList(contactModel.Addresses),
-                PhoneNumbers = ConvertToPhoneList(contactModel.PhoneNumbers),
-                Emails = ConvertToEmailList(contactModel.Emails)
+                Addresses = contactModel.Addresses != null ? ConvertToAddressList(contactModel.Addresses) : null,
+                PhoneNumbers = contactModel.PhoneNumbers != null ? ConvertToPhoneList(contactModel.PhoneNumbers) : null,
+                Emails = contactModel.Emails != null ? ConvertToEmailList(contactModel.Emails) : null
             };
         }
 
@@ -120,9 +120,9 @@ namespace contact_book.Controllers
                 Company = contact.Company,
                 Notes = contact.Notes,
                 BirthDate = contact.BirthDate,
-                Addresses = ConvertToApiAddressList(contact.Addresses),
-                PhoneNumbers = ConvertToApiPhoneList(contact.PhoneNumbers),
-                Emails = ConvertToApiEmailList(contact.Emails)
+                Addresses = contact.Addresses != null ? ConvertToApiAddressList(contact.Addresses) : null,
+                PhoneNumbers = contact.PhoneNumbers != null ? ConvertToApiPhoneList(contact.PhoneNumbers) : null,
+                Emails = contact.Emails != null ? ConvertToApiEmailList(contact.Emails) : null
             };
         }
     }

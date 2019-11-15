@@ -5,7 +5,6 @@
         public string Prefix { get; set; }
         public string Number { get; set; }
         public Type PhoneNumberType { get; set; }
-        public int ContactId { get; set; }
 
         public PhoneNumber()
         {

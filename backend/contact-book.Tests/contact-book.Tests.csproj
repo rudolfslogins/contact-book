@@ -115,6 +115,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="ServicesTests\ContactValidatorTest.cs" />
+    <Compile Include="ServicesTests\SearchValidatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -126,6 +128,10 @@
     <ProjectReference Include="..\contact-book.core\contact-book.core.csproj">
       <Project>{7D2E9D19-0BE8-4C07-BDC2-B68DB794A1FA}</Project>
       <Name>contact-book.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\contact-book.services\contact-book.services.csproj">
+      <Project>{6B287D04-6304-4B09-968E-FBE7EAF3CA56}</Project>
+      <Name>contact-book.services</Name>
     </ProjectReference>
     <ProjectReference Include="..\contact-book\contact-book.csproj">
       <Project>{1CD104DD-2869-4CA2-8ABB-BF9EE28111C9}</Project>

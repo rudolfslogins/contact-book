@@ -14,8 +14,9 @@ namespace contact_book.services.Services
         {
             using (var context = new ContactBookDbContext())
             {
-                return await context.Email
-                    .Where(e => e.ContactId == id)
+                return await context.Contact
+                    .Where(c => c.Id == id)
+                    .SelectMany(c => c.Emails)
                     .Include(e => e.EmailType)
                     .ToListAsync();
             }
