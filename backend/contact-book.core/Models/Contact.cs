@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace contact_book.core.Models
 {
@@ -16,7 +17,9 @@ namespace contact_book.core.Models
         public ICollection<Email> Emails { get; set; }
         public string Company { get; set; }
         public string Notes { get; set; }
-        public DateTime? BirthDate { get; set; }
+        //[DataType(DataType.Date)]
+        //[Column(TypeName = "Date")]
+        public string BirthDate { get; set; }
 
         public Contact()
         {

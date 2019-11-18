@@ -17,7 +17,7 @@ namespace contact_book.Controllers
         {
             return new Type
             {
-                Id = typeModel.Id,
+                //Id = typeModel.Id,
                 TypeName = typeModel.TypeName
             };
         }
@@ -26,7 +26,7 @@ namespace contact_book.Controllers
         {
             return new TypeApiModel
             {
-                Id = type.Id,
+                //Id = type.Id,
                 TypeName = type.TypeName
             };
         }

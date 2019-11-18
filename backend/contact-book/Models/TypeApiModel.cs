@@ -1,6 +1,6 @@
 ﻿namespace contact_book.Models
 {
-    public class TypeApiModel : EntityApiModel
+    public class TypeApiModel
     {
         public string TypeName { get; set; }
 

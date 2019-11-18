@@ -92,6 +92,14 @@
     <Compile Include="Migrations\201911142217085_Seventh.designer.cs">
       <DependentUpon>201911142217085_Seventh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911171740426_Eigth.cs" />
+    <Compile Include="Migrations\201911171740426_Eigth.designer.cs">
+      <DependentUpon>201911171740426_Eigth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911171814336_Ninth.cs" />
+    <Compile Include="Migrations\201911171814336_Ninth.designer.cs">
+      <DependentUpon>201911171814336_Ninth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -126,6 +134,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911142217085_Seventh.resx">
       <DependentUpon>201911142217085_Seventh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911171740426_Eigth.resx">
+      <DependentUpon>201911171740426_Eigth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911171814336_Ninth.resx">
+      <DependentUpon>201911171814336_Ninth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

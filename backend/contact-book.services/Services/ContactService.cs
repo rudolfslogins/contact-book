@@ -215,6 +215,9 @@ namespace contact_book.services.Services
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.Email', RESEED, 0)");
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.PhoneNumber', RESEED, 0)");
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.Type', RESEED, 0)");
+                
+                
+                context.SeedMethod();
             }
         }
 

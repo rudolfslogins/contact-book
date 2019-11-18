@@ -95,9 +95,8 @@ namespace contact_book.Controllers
         public async Task<IHttpActionResult> DeleteById(int id)
         {
             var contact = await _contactService.GetContactById(id);
-            if (contact == null)
-                return NotFound();
-            await _contactService.DeleteContactById(id);
+            if (contact != null)
+                await _contactService.DeleteContactById(id);
             return Ok();
         }
 
@@ -107,9 +106,8 @@ namespace contact_book.Controllers
         public async Task<IHttpActionResult> DeleteAllContacts()
         {
             var contacts = await _contactService.GetAllContacts();
-            if (contacts.Count == 0)
-                return NotFound();
-            await _contactService.DeleteAllContacts();
+            if (contacts.Count != 0)
+                await _contactService.DeleteAllContacts();
             return Ok($"{contacts.Count} contacts deleted!");
         }
     }
