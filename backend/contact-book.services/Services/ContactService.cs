@@ -96,9 +96,9 @@ namespace contact_book.services.Services
             {
                 var contactToUpdate = await context.Contact
                     .Where(c => c.Id == id)
-                    .Include(c => c.PhoneNumbers)
+                    .Include(c => c.PhoneNumbers.Select(pn => pn.PhoneNumberType))
                     .Include(c => c.Addresses.Select(a => a.AddressType))
-                    .Include(c => c.Emails)
+                    .Include(c => c.Emails.Select(e => e.EmailType))
                     .FirstOrDefaultAsync();
 
                 if (contactToUpdate == default)

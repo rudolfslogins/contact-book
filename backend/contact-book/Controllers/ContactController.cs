@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using contact_book.core.Models;
 using contact_book.Models;
 using contact_book.services;
@@ -17,6 +18,7 @@ using Type = contact_book.core.Models.Type;
 
 namespace contact_book.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ContactController : BaseController
     {
         private readonly ContactService _contactService;
@@ -75,6 +77,7 @@ namespace contact_book.Controllers
             if (!result.Succeeded && result.ErrorMessage != null)
                 return BadRequest(result.ErrorMessage);
             return Ok(ConvertToApiContact(result.Contact));
+            //ConvertToApiContact(result.Contact)
         }
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using contact_book.core.Models;
 using contact_book.Models;
 using MoreLinq.Extensions;
@@ -11,6 +12,7 @@ using Type = contact_book.core.Models.Type;
 
 namespace contact_book.Controllers
 {
+    
     public class BaseController : ApiController
     {
         public Type ConvertToType(TypeApiModel typeModel)
