@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.WebPages;
 using contact_book.core.Models;
 using contact_book.Models;
 using contact_book.services;
 using contact_book.services.Interfaces;
 using contact_book.services.Services;
+using Microsoft.Ajax.Utilities;
 using MoreLinq.Experimental;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using RouteAttribute = System.Web.Http.RouteAttribute;
@@ -51,6 +53,8 @@ namespace contact_book.Controllers
         [Route("api/contacts")]
         public async Task<IHttpActionResult> SearchContacts (string search)
         {
+            if (search.IsEmpty() || search.IsNullOrWhiteSpace())
+                return BadRequest("'Search string' cannot be empty.");
             var result = await _contactService.SearchContacts(search.Trim().ToLowerInvariant());
             if (!result.Succeeded)
                 return BadRequest(result.ValidationResult.ToString(" | "));

@@ -44,7 +44,8 @@ namespace contact_book.services.Services
                 return new ServiceResult(false, validationResult);
             using (var context = new ContactBookDbContext())
             {
-                var result = await context.Contact.Where(s =>
+                var result = await context.Contact
+                    .Where(s =>
                         s.FirstName.ToLower().Contains(search) ||
                         s.LastName.ToLower().Contains(search) ||
                         s.Company.ToLower().Contains(search) ||
@@ -91,7 +92,7 @@ namespace contact_book.services.Services
             var validationResult = validator.Validate(newContactDetails);
             if (!validationResult.IsValid)
                 return new ServiceResult(false, validationResult);
-            
+            await DeleteEntities(id, newContactDetails);
             using (var context = new ContactBookDbContext())
             {
                 var contactToUpdate = await context.Contact
@@ -103,6 +104,7 @@ namespace contact_book.services.Services
 
                 if (contactToUpdate == default)
                     return new ServiceResult(false, "Contact not found!");
+
                 
                 await CheckContactTypes(newContactDetails, context);
 
@@ -112,62 +114,87 @@ namespace contact_book.services.Services
                 contactToUpdate.Company = newContactDetails.Company;
                 contactToUpdate.Notes = newContactDetails.Notes;
 
-                //contactToUpdate.PhoneNumbers = new List<PhoneNumber>();
                 if (newContactDetails.PhoneNumbers != null)
+
                     foreach (var phoneNumber in newContactDetails.PhoneNumbers)
                     {
-                        var phoneToUpdate = context.PhoneNumber.Find(phoneNumber.Id);
-                        if (phoneToUpdate == null)
+                        var phoneToUpdate = await context.PhoneNumber
+                            .Where(pn => pn.Id == phoneNumber.Id)
+                            .FirstOrDefaultAsync();
+                        if (phoneToUpdate == default)
                             contactToUpdate.PhoneNumbers.Add(phoneNumber);
                         else
                         {
                             phoneToUpdate.Prefix = phoneNumber.Prefix;
                             phoneToUpdate.Number = phoneNumber.Number;
                             phoneToUpdate.PhoneNumberType = phoneNumber.PhoneNumberType;
-
-                            contactToUpdate.PhoneNumbers.Add(phoneToUpdate);
                         }
                     }
 
-                //contactToUpdate.Emails = new List<Email>();
                 if(newContactDetails.Emails != null)
                     foreach (var email in newContactDetails.Emails)
                     {
-                        var emailToUpdate = context.Email.Find(email.Id);
-                        if (emailToUpdate == null)
+                        var emailToUpdate = await context.Email
+                            .Where(e => e.Id == email.Id)
+                            .FirstOrDefaultAsync();
+                        if (emailToUpdate == default)
                             contactToUpdate.Emails.Add(email);
                         else
                         {
                             emailToUpdate.EmailName = email.EmailName;
                             emailToUpdate.EmailType = email.EmailType;
-
-                            contactToUpdate.Emails.Add(emailToUpdate);
                         }
                     }
 
-                //contactToUpdate.Addresses = new List<Address>();
-                if(newContactDetails.Addresses != null)
+                if (newContactDetails.Addresses != null)
                     foreach (var address in newContactDetails.Addresses)
                     {
-                        var addressToUpdate = context.Address.Find(address.Id);
-                        if (addressToUpdate == null)
+                        var addressToUpdate = await context.Address
+                            .Where(a => a.Id == address.Id)
+                            .FirstOrDefaultAsync();
+                        if (addressToUpdate == default)
                             contactToUpdate.Addresses.Add(address);
                         else
                         {
                             addressToUpdate.FullAddress = address.FullAddress;
                             addressToUpdate.AddressType = address.AddressType;
-
-                            contactToUpdate.Addresses.Add(addressToUpdate);
                         }
                     }
 
-                context.Contact.Attach(contactToUpdate);
-                
-                context.Entry(contactToUpdate).State = EntityState.Modified;
                 await context.SaveChangesAsync();
                 return new ServiceResult(true, contactToUpdate);
             }
         }
+
+        public async Task DeleteEntities(int id, Contact contact)
+        {
+            var addressService = new AddressService();
+            var phoneService = new PhoneNumberService();
+            var emailService = new EmailService();
+
+            var addresses = await addressService.GetAddressesByContactId(id);
+            foreach (var address in addresses)
+            {
+                if (contact.Addresses.FirstOrDefault(a => a.Id == address.Id) == default)
+                    await addressService.DeleteAddressById(address.Id);
+            }
+
+            var phoneNumbers = await phoneService.GetPhoneNumbersByContactId(id);
+            foreach (var phone in phoneNumbers)
+            {
+                if (contact.PhoneNumbers.FirstOrDefault(ph => ph.Id == phone.Id) == default)
+                    await phoneService.DeletePhoneNumberById(phone.Id);
+            }
+
+            var emails = await emailService.GetEmailsByContactId(id);
+            foreach (var email in emails)
+            {
+                if (contact.Emails.FirstOrDefault(e => e.Id == email.Id) == default)
+                    await emailService.DeleteEmailById(email.Id);
+            }
+
+        }
+
         public async Task DeleteContactById(int id)
         {
             using (var context = new ContactBookDbContext())
@@ -215,7 +242,6 @@ namespace contact_book.services.Services
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.Email', RESEED, 0)");
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.PhoneNumber', RESEED, 0)");
                 await context.Database.ExecuteSqlCommandAsync("DBCC CHECKIDENT ('Contacts.dbo.Type', RESEED, 0)");
-                
                 
                 context.SeedMethod();
             }

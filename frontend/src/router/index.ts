@@ -1,14 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import FlightsPage from '../views/FlightsPage.vue'
+import Router from 'vue-router'
+import ContactPage from '../views/ContactPage.vue'
+import ContactList from '../views/ContactList.vue'
 
-Vue.use(VueRouter)
+//Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
   {
+    path: '/edit/:Cid',
+    name: 'edit',
+    component: () => import('../views/ContactPage.vue')
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: () => import('../views/ContactPage.vue')
+  },
+  {
     path: '/',
-    name: 'home',
-    component: FlightsPage
+    name: 'list',
+    component: () => import('../views/ContactListPage.vue')
   },
   {
     path: '/about',
@@ -20,7 +33,10 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
+// const router = new VueRouter({
+//   routes
+// })
+const router = new Router({
   routes
 })
 

@@ -1,49 +1,37 @@
 <template>
   <div id="app">
     <Header></Header>
-    <div class="content">
-      <md-tabs>
-        <md-tab id="tab-home" md-label="Home" md-icon="home">
-          <FlightPage></FlightPage>
-        </md-tab>
-        <md-tab id="tab-pages" md-label="Pages" md-icon="pages">
-          BBB
-        </md-tab>
-        <md-tab id="tab-posts" md-label="Posts" md-icon="android">
-          CCC
-        </md-tab>
-        <md-tab id="tab-favorites" md-label="Favorites" md-icon="favorite">
-          DDD
-        </md-tab>
-      </md-tabs>
-    </div>
+    <transition name="moveInUp">
+         <router-view/>
+  </transition>
     <div class="footer"></div>
   </div>
 </template>
 
 <script>
-import FlightPage from './views/FlightsPage';
 import Header from "./components/HeaderComponent";
+import ContactPage from "./views/ContactPage";
+import ContactList from "./views/ContactListPage";
+
+import Vue from 'vue'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/black-green-light.css' // This line here
+
+Vue.use(VueMaterial)
+
 export default {
   name: 'App',
   components: {
-    FlightPage,
-    Header
+    Header,
+    ContactPage,
+    ContactList
   }
 }
 </script>
 
 <style lang="scss">
 
-/* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  display: flex;
-  flex-flow: column;
-} */
 .md-tabs {
   display: flex;
   flex-direction: row !important;
@@ -52,21 +40,19 @@ export default {
     flex-flow: column ;
   }
 }
-
-/* div[id^="tab-"] {
- // cool CSS stuffs
- background-color: #42b983;
-} */
-/* #nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.moveInUp-enter-active{
+  animation: fadeIn 500ms ease-in;
+}
+@keyframes fadeIn{
+  0%{
+    opacity: 0;
   }
-} */
+  50%{
+  opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 </style>
