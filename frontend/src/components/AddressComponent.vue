@@ -81,7 +81,6 @@ export default {
             this.addresses[index].fullAddress = event.formatted_address;
         },
         async getGoogleAddresses(searchTerm){
-            
             if(searchTerm === undefined || searchTerm.length < 3)
             return;
             let term = searchTerm.replace(' ', '+');

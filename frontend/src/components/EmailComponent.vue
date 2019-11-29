@@ -50,7 +50,6 @@ export default {
       }
       this.emails.push(template);
       this.sendEmailUpdatedEvent();
-      
     },
     removeEmailField(index){
       this.emails.splice(index, 1);
